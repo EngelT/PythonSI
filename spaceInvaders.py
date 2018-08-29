@@ -2,6 +2,7 @@
 
 import pygame
 import time
+import random
 pygame.init()
 screen_width = 600
 screen_height = 600
@@ -92,11 +93,21 @@ class projectile(object):
 
 
 
+#Startpoints of the aliens
+starta = 36
+starta0 =100
+starta1 =164
+starta2 =228
+starta3 =292
 
 
 #the diffrent character models
 man = player(300, 520, 64, 64)
-alien = enemy(36 , 200, 64, 64, 500, 5)
+alien = enemy(starta , 200, 64, 64, 228, 4)
+alien0 = enemy(starta0 , 200, 64, 64, 292, 4)
+alien1 = enemy(starta1 , 200, 64, 64, 356, 4)
+alien2 = enemy(starta2 , 200, 64, 64, 420, 4)
+alien3 = enemy(starta3 , 200, 64, 64, 484, 4)
 bulletsP = []
 font = pygame.font.SysFont("lucida console", 30, True, False)
 fontInfo = pygame.font.SysFont("lucida console", 13, False, True)
@@ -120,6 +131,10 @@ def redrawGameWindow():
     else:
         man.draw(win)
         alien.draw(win)
+        alien0.draw(win)
+        alien1.draw(win)
+        alien2.draw(win)
+        alien3.draw(win)
         for bullet in bulletsP:
             bullet.draw(win)
         info = fontInfo.render("Hold TAB for menu", 1, (255, 255, 255))
@@ -153,13 +168,53 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+    #check if alien is hit
+    if alien.visible:
+        for bullet in bulletsP:
+            if bullet.y - bullet.radius < alien.hitbox[1] + alien.hitbox[3] and bullet.y + bullet.radius > alien.hitbox[1]:
+                if bullet.x + bullet.radius > alien.hitbox[0] and bullet.x - bullet.radius < alien.hitbox[0] + alien.hitbox[2]:
+                    alien.hit()
+                    score += 1
+                    bulletsP.pop(bulletsP.index(bullet))
+    if alien0.visible:
+        for bullet in bulletsP:
+            if bullet.y - bullet.radius < alien0.hitbox[1] + alien0.hitbox[3] and bullet.y + bullet.radius > alien0.hitbox[1]:
+                if bullet.x + bullet.radius > alien0.hitbox[0] and bullet.x - bullet.radius < alien0.hitbox[0] + alien0.hitbox[2]:
+                    alien0.hit()
+                    score += 1
+                    bulletsP.pop(bulletsP.index(bullet))
+    if alien1.visible:
+        for bullet in bulletsP:
+            if bullet.y - bullet.radius < alien1.hitbox[1] + alien0.hitbox[3] and bullet.y + bullet.radius > alien1.hitbox[1]:
+                if bullet.x + bullet.radius > alien1.hitbox[0] and bullet.x - bullet.radius < alien1.hitbox[0] + alien1.hitbox[2]:
+                    alien1.hit()
+                    score += 1
+                    bulletsP.pop(bulletsP.index(bullet))
+    if alien2.visible:
+        for bullet in bulletsP:
+            if bullet.y - bullet.radius < alien2.hitbox[1] + alien2.hitbox[3] and bullet.y + bullet.radius > alien2.hitbox[1]:
+                if bullet.x + bullet.radius > alien2.hitbox[0] and bullet.x - bullet.radius < alien2.hitbox[0] + alien2.hitbox[2]:
+                    alien2.hit()
+                    score += 1
+                    bulletsP.pop(bulletsP.index(bullet))
+    if alien3.visible:
+        for bullet in bulletsP:
+            if bullet.y - bullet.radius < alien3.hitbox[1] + alien3.hitbox[3] and bullet.y + bullet.radius > alien3.hitbox[1]:
+                if bullet.x + bullet.radius > alien3.hitbox[0] and bullet.x - bullet.radius < alien3.hitbox[0] + alien3.hitbox[2]:
+                    alien3.hit()
+                    score += 1
+                    bulletsP.pop(bulletsP.index(bullet))
 
-    for bullet in bulletsP:
-        if bullet.y - bullet.radius < alien.hitbox[1] + alien.hitbox[3] and bullet.y + bullet.radius > alien.hitbox[1]:
-            if bullet.x + bullet.radius > alien.hitbox[0] and bullet.x - bullet.radius < alien.hitbox[0] + alien.hitbox[2]:
-                alien.hit()
-                score += 1
-                bulletsP.pop(bulletsP.index(bullet))
+
+
+    if alien.visible == False and alien0.visible == False and alien1.visible == False and alien2.visible == False and alien3.visible == False:
+        alien.visible = True
+        alien0.visible = True
+        alien1.visible = True
+        alien2.visible = True
+        alien3.visible = True
+        print("NEXT WAVE")
+
 
     if shootLoop > 0:
         shootLoop += 1
